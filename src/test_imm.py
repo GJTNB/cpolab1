@@ -5,6 +5,13 @@ from immutable import *
 
 
 class TestImmutableList(unittest.TestCase):
+    def test_addNone(self):
+        lst = DA_imm()
+        add_to_tail(lst,None)
+        self.assertEqual(to_list(lst), [None])
+        lst2 = DA_imm([1,None,2])
+        self.assertEqual(to_list(lst2), [1,None,2])
+
     def test_size(self):
         self.assertEqual(size(DA_imm([])), 0)
         self.assertEqual(size(DA_imm([1])), 1)
@@ -74,15 +81,24 @@ class TestImmutableList(unittest.TestCase):
     def test_from_list_to_list_equality(self, a):
         self.assertEqual(to_list(from_list(a)), a)
 
-    @given(st.lists(st.integers()))
+    @given(st.lists(st.integers(), min_size=100))
     def test_monoid_identity(self, lst):
         a = from_list(lst)
-        self.assertEqual(to_list(mconcat(mempty(), a)), to_list(a))
-        self.assertEqual(to_list(mconcat(a, mempty())), to_list(a))
+        self.assertEqual(mconcat(mempty(), a), a)
+        self.assertEqual(mconcat(a, mempty()), a)
+
+    @given(a=st.lists(st.integers(), min_size=100),b=st.lists(st.integers()),c=st.lists(st.integers()))
+    def test_monoid_associativity(self,a,b,c):
+        lst1 = from_list(a)
+        lst2 = from_list(b)
+        lst3 = from_list(c)
+        self.assertEqual(mconcat(mconcat(lst1, lst2),lst3),mconcat(lst1,mconcat(lst2, lst3)))
+        x = mconcat(mconcat(lst1, lst2),lst3)
+        y = mconcat(lst1,mconcat(lst2, lst3))
+        self.assertEqual(x,y)
 
     def test_iter(self):
-        x = [1, 2, 3,4]
-        lst = from_list(x)
+        lst = DA_imm([1,2,3,5])
         tmp = []
         try:
             get_next = iterator(lst)
@@ -90,7 +106,7 @@ class TestImmutableList(unittest.TestCase):
                 tmp.append(get_next())
         except StopIteration:
             pass
-        self.assertEqual(x, tmp)
+        self.assertEqual([1,2,3,5], tmp)
         self.assertEqual(to_list(lst), tmp)
 
         get_next = iterator(None)
