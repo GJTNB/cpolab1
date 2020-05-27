@@ -11,15 +11,18 @@ class DA_mut:
             self._A[i] = l[i]
             self._n = len(l) 
 
+    #return  is a int, the size about DA_mut
     def size(self) -> int:
         return self._n
     
+    #return is a list,Make the DA_mut into the list
     def to_list(self) -> list:
         lst = []
         for k in range(self._n):
                 lst.append(self._A[k])
         return lst
 
+    #lst is a list,Make a list into a DA_mut
     def from_list(self, lst:list):
         if len(lst) >= self._capacity:    #Check if the current capacity is enough
             self._resize(len(lst))
@@ -29,12 +32,14 @@ class DA_mut:
         self._n = len(lst)
         return self
 
+    #obj is  about elements need to be appended,Add data from the tail
     def append_to_tail(self, obj):
         if self._n == self._capacity:    #Check if the current capacity is enough
             self._resize(2 * self._capacity)
         self._A[self._n] = obj    
         self._n += 1
-    
+
+    #value is  about elements need to be appended,Add data from the head
     def append_to_head(self, value):
         if self._n == self._capacity:    #Check if the current capacity is enough
             self._resize(2 * self._capacity)
@@ -47,6 +52,7 @@ class DA_mut:
         for i in range(self._n):
             self._A[i] = f(self._A[i])
 
+    #initial_state is  about elements need
     def reduce(self, f, initial_state):
         state = initial_state
         cur = 0
@@ -55,12 +61,14 @@ class DA_mut:
             cur += 1
         return state
 
+    #Check if there is this value in DA_mut,value is the value in DA_mut 
     def find(self, value):
         for v in self.to_list():
             if v is value:
                 return True
         return False     
 
+    #value is the value that you need to filter in DA_mut
     def filter(self, value):
         lst_filter = []
         for i in self._A[:self._n]:
@@ -68,9 +76,11 @@ class DA_mut:
                 lst_filter.append(i)
         return lst_filter
 
+    #Define the empty DA_mut
     def mempty(self):
         return None
 
+    #Combine two DA_mut,DA1 and DA2 are DA_mut
     def mconcat(self,DA1,DA2):
         if DA1 is  None:
             if (DA2._n) >= self._capacity:    #Check if the current capacity is enough
@@ -94,6 +104,7 @@ class DA_mut:
                 self._A[e]=DA2._A[e-DA1._n]
                 self._n+=1
 
+    #Remove a value at DA_mut,value is the value in DA_mut
     def remove(self, value):
         for k in range(self._n):
             if self._A[k] == value:   
@@ -103,10 +114,12 @@ class DA_mut:
                 self._n -= 1
                 return
         raise ValueError( 'value not found' )
-
+    
+    #Open up space
     def _make_array(self, c):
         return (c * ctypes.py_object)( )
     
+    #Expanded memory,c is the size
     def _resize(self, c:int):
         B = self._make_array(c)
         for k in range(self._n):
@@ -114,13 +127,9 @@ class DA_mut:
         self._A = B
         self._capacity = c   
 
+    #Determine DA_mut if it is empty
     def is_empty(self):
         return self._n == 0
-    
-    def __getitem__ (self, k):
-        if not 0 <= k < self._n:
-            raise ValueError('invalid index') 
-        return self._A[k]
     
     def __iter__(self):
         self.a = 0
