@@ -118,7 +118,9 @@ class TestMutableList(unittest.TestCase):
         lst.from_list(li)
         lst_test1=DA_mut()
         lst_test2=DA_mut()
+        #0+a
         lst_test1.mconcat(lst.mempty(), lst)
+        #a+0
         lst_test2.mconcat(lst, lst.mempty())
         self.assertEqual(lst_test1.to_list(),li)
         self.assertEqual(lst_test2.to_list(),li)
@@ -126,6 +128,7 @@ class TestMutableList(unittest.TestCase):
 
     @given(a=st.lists(st.integers(), min_size=100),b=st.lists(st.integers()),c=st.lists(st.integers()))
     def test_monoid_associativity(self,a,b,c):
+        #（a+b)+c
         lst_test1=DA_mut()
         lst1 = DA_mut()
         lst2 = DA_mut()
@@ -137,6 +140,7 @@ class TestMutableList(unittest.TestCase):
         lst_test1_1.mconcat(lst1,lst2)
         lst_test1.mconcat(lst_test1_1,lst3)
 
+        #a+(b+c)
         lst_test2=DA_mut()
         lst1 = DA_mut()
         lst2 = DA_mut()

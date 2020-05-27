@@ -11,16 +11,16 @@ class DA_mut:
             self._A[i] = l[i]
             self._n = len(l) 
 
-    def size(self):
+    def size(self) -> int:
         return self._n
     
-    def to_list(self):
+    def to_list(self) -> list:
         lst = []
         for k in range(self._n):
                 lst.append(self._A[k])
         return lst
 
-    def from_list(self, lst):
+    def from_list(self, lst:list):
         if len(lst) >= self._capacity:    #Check if the current capacity is enough
             self._resize(len(lst))
         if len(lst) > 0:
@@ -43,7 +43,7 @@ class DA_mut:
         self._A[0] = value
         self._n += 1
 
-    def map(self, f):
+    def map(self, f:str):
         for i in range(self._n):
             self._A[i] = f(self._A[i])
 
@@ -107,7 +107,7 @@ class DA_mut:
     def _make_array(self, c):
         return (c * ctypes.py_object)( )
     
-    def _resize(self, c):
+    def _resize(self, c:int):
         B = self._make_array(c)
         for k in range(self._n):
             B[k] = self._A[k]
