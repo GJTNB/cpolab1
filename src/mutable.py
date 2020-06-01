@@ -48,7 +48,7 @@ class DA_mut:
         self._A[0] = value
         self._n += 1
 
-    def map(self, f:str):
+    def map(self, f):
         for i in range(self._n):
             self._A[i] = f(self._A[i])
 

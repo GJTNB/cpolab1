@@ -3,7 +3,6 @@ from hypothesis import given
 import hypothesis.strategies as st
 from immutable import *
 
-
 class TestImmutableList(unittest.TestCase):
     def test_addNone(self):
         lst = DA_imm()

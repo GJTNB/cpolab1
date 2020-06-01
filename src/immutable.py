@@ -40,11 +40,11 @@ class DA_imm(object):
         self._capacity = c   
 
 #return  is a int, the size about DA_mut
-def size(n:DA_imm()) -> int:
+def size(n:DA_imm) -> int:
     return n._n
 
 #return is a list,Make the DA_mut into the list
-def to_list(n:DA_imm()) -> list:
+def to_list(n:DA_imm) -> list:
     lst = []
     for e in n:
         lst.append(e)
@@ -61,7 +61,7 @@ def from_list(lst:list):
     return n
 
 #value is  about elements need to be appended,Add data from the head
-def add_to_head(n:DA_imm(), value):
+def add_to_head(n:DA_imm, value):
     if n._n == n._capacity:    #Check if the current capacity is enough
         n._resize(2 * n._capacity)
     for j in range(n._n, 0, -1):    
@@ -71,7 +71,7 @@ def add_to_head(n:DA_imm(), value):
     return n
 
 #value is  about elements need to be appended,Add data from the tail
-def add_to_tail(n:DA_imm(), value):
+def add_to_tail(n:DA_imm, value):
     if n._n == n._capacity:     #Check if the current capacity is enough
         n._resize(2 * n._capacity)
     n._A[n._n] = value    
@@ -79,14 +79,14 @@ def add_to_tail(n:DA_imm(), value):
     return n
 
 #Check if there is this value in DA_mut,value is the value in DA_mut 
-def find(n:DA_imm(), value):
+def find(n:DA_imm, value):
     for e in n:
         if e is value:
             return True
     return False
 
 #Remove a value at DA_mut,value is the value in DA_mut
-def remove(n:DA_imm(), value):
+def remove(n:DA_imm, value):
     l = []
     for i in range(size(n)):
         if i is not value:
@@ -94,7 +94,7 @@ def remove(n:DA_imm(), value):
     return DA_imm(l)
 
 #value is the value that you need to filter in DA_mut
-def filter(n:DA_imm(), value):
+def filter(n:DA_imm, value):
     l = []
     for e in n:
         if e is not value:
@@ -102,14 +102,14 @@ def filter(n:DA_imm(), value):
     return DA_imm(l)
 
 
-def map(n:DA_imm(), f):
+def map(n:DA_imm, f):
     l = []
     for e in n:
         l.append(f(e))
     return DA_imm(l)
 
 #initial_state is  about elements need
-def reduce(n:DA_imm(), f, initial_state):
+def reduce(n:DA_imm, f, initial_state):
     state = initial_state
     cur = 0
     for i in range(n._n):
@@ -122,13 +122,13 @@ def mempty():
     return DA_imm()
 
 #Combine two DA_mut,DA1 and DA2 are DA_mut
-def mconcat(a:DA_imm(), b:DA_imm()):
+def mconcat(a:DA_imm, b:DA_imm):
     l1 = to_list(a)
     l2 = to_list(b)
     return DA_imm(l1 + l2)
 
 #iterator in DA_mut
-def iterator(lst:DA_imm()):
+def iterator(lst:DA_imm):
     if lst is not None:
         length=size(lst)
     else:
